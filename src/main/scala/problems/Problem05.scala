@@ -9,18 +9,14 @@ object Problem05 extends BaseProblem(5) {
       origin._1 == terminus._1 || origin._2 == terminus._2
 
     val rangeOfPoints: Set[(Int, Int)] = {
-      if (origin._1 == terminus._1) {
+      if (origin._1 == terminus._1) { // vertical
         val max = List(origin._2, terminus._2).max
         val min = List(origin._2, terminus._2).min
         (min to max).map(y => (origin._1, y)).toSet
-      } else if (origin._2 == terminus._2) {
-        val max = List(origin._1, terminus._1).max
-        val min = List(origin._1, terminus._1).min
-        (min to max).map(x => (x, origin._2)).toSet
-      } else {
+      } else { // horizontal or diagonal
         val maxX = List(origin._1, terminus._1).max
         val minX = List(origin._1, terminus._1).min
-        val lefty = List(origin, terminus).find(_._1 == minX).get
+        val lefty = if (origin._1 == minX) origin else terminus
         val slope = (terminus._2 - origin._2) / (terminus._1 - origin._1)
         (minX to maxX).map(x => (x, lefty._2 + slope * (x - minX))).toSet
       }
